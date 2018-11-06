@@ -13,6 +13,13 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     assert_select 'h2', 'Add a new Image'
   end
 
+  def test_index
+    get images_path
+    assert_response :ok
+    assert_select 'h2', 'Stored Images'
+    assert_select 'img', count: 1
+  end
+
   def test_create_success
     assert_difference('Image.count', 1) do
       image_params = { url: @valid_url }
