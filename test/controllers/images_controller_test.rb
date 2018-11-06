@@ -40,4 +40,10 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
       end
     end
   end
+
+  def test_show
+    get image_path(@image.id)
+    assert_response :ok
+    assert_select 'img', count: 1
+  end
 end
