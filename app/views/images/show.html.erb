@@ -3,6 +3,8 @@
 <% end %>
 <p>
   <h3>Image URL:</h3>
-  <%= @image.url %>
   <%= image_tag @image.url %>
 </p>
+<%= link_to 'All Images', images_path %>
+<%= link_to 'New Image', new_image_path %>
+
