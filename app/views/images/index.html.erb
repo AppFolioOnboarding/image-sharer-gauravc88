@@ -1,5 +1,5 @@
 <h2>Stored Images</h2>
 <% @images.each do |image| %>
-  <%= image_tag image.url, size: '400' %>
+  <div class="image-container"><%= image_tag image.url %></div>
   <br>
 <% end %>
