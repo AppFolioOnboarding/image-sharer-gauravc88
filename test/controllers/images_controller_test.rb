@@ -3,8 +3,13 @@ require 'test_helper'
 class ImagesControllerTest < ActionDispatch::IntegrationTest
   setup do
     @valid_url = 'https://homersimpson.jpg'
+    @url0 = 'https://test0.jpg'
+    @url1 = 'https://test1.jpg'
+    @url2 = 'https://test2.jpg'
     @invalid_url = 'ftp://blah.xyz'
-    @image = Image.create(url: @valid_url)
+    @image0 = Image.create(url: @url0)
+    @image1 = Image.create(url: @url1)
+    @image2 = Image.create(url: @url2)
   end
 
   def test_new
@@ -17,7 +22,12 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     get images_path
     assert_response :ok
     assert_select 'h2', 'Stored Images'
-    assert_select 'img', count: 1
+    assert_select 'img', count: 3
+    assert_select 'img' do |imgs|
+      img_urls = imgs.map { |img| img['src'] }
+      expected_urls = [@url2, @url1, @url0]
+      assert_equal img_urls, expected_urls
+    end
   end
 
   def test_create_success
@@ -49,7 +59,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_show
-    get image_path(@image.id)
+    get image_path(@image0.id)
     assert_response :ok
     assert_select 'img', count: 1
   end
