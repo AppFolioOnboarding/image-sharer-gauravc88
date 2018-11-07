@@ -64,5 +64,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     get image_path(@image0.id)
     assert_response :ok
     assert_select 'img', count: 1
+    assert_select 'a[href="/images"]', count: 1
+    assert_select 'a[href="/images/new"]', count: 1
   end
 end
