@@ -5,6 +5,6 @@ class ApplicationControllerTest < ActionDispatch::IntegrationTest
     get root_url
     assert_response :success
     assert_select 'h2', value: 'Stored Images'
-    assert_select 'a[href="/images/new"]', count: 1
+    assert_select 'a[href="/images/new"]', count: 2
   end
 end

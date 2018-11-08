@@ -16,7 +16,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     get new_image_path
     assert_response :ok
     assert_select 'h2', 'Add a new Image'
-    assert_select 'a[href="/images"]', count: 1
+    assert_select 'a[href="/images"]', count: 2
   end
 
   def test_index
@@ -29,7 +29,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
       expected_urls = [@url2, @url1, @url0]
       assert_equal img_urls, expected_urls
     end
-    assert_select 'a[href="/images/new"]', count: 1
+    assert_select 'a[href="/images/new"]', count: 2
   end
 
   def test_create_success
@@ -64,7 +64,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     get image_path(@image0.id)
     assert_response :ok
     assert_select 'img', count: 1
-    assert_select 'a[href="/images"]', count: 1
-    assert_select 'a[href="/images/new"]', count: 1
+    assert_select 'a[href="/images"]', count: 2
+    assert_select 'a[href="/images/new"]', count: 2
   end
 end

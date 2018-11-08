@@ -1,0 +1,8 @@
+<ul class="nav nav-tabs" id="applicationTab" role="tablist">
+  <li class="nav-item">
+    <%= link_to 'All Images', images_path, id: 'all-images-tab', class: "nav-link #{'active' if current_page?(images_path)}" %>
+  </li>
+  <li class="nav-item">
+    <%= link_to 'New Image', new_image_path, id: 'new-image-tab', class: "nav-link #{'active' if current_page?(new_image_path)}" %>
+  </li>
+</ul>
