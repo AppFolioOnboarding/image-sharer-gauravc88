@@ -48,16 +48,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
       post images_path, params: { image: image_params }
     end
     assert_response :ok
-    assert_select 'div#error_explanation' do |elements|
-      elements.each do |element|
-        assert_select element, 'li', 2
-      end
-    end
-    assert_select 'div.field_with_errors' do |elements|
-      elements.each do
-        assert_select 'input[type=text]', value: @invalid_url
-      end
-    end
+    assert_select 'div.invalid-feedback', value: 'Url must start with http or https and Url must have a valid extension'
   end
 
   def test_show

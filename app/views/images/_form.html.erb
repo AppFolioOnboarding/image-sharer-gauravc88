@@ -1,21 +1,4 @@
-<%= form_for(image) do |form| %>
-  <% if image.errors.any? %>
-    <div id="error_explanation">
-      <h2>
-        <%= pluralize(image.errors.count, "error") %> prohibited this image from being saved:
-      </h2>
-      <ul>
-        <% image.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <%= form.label :Image_Url %>
-  <br>
-  <%= form.text_field :url %>
-  <p>
-    <%= form.submit %>
-  </p>
+<%= simple_form_for(image) do |form| %>
+  <%= form.input :url, label: 'Image url' %>
+  <%= form.submit 'Save Image', class: "btn btn-primary" %>
 <% end %>
