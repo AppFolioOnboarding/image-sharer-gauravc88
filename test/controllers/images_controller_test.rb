@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/LineLength
 require 'test_helper'
 
 class ImagesControllerTest < ActionDispatch::IntegrationTest
@@ -16,7 +17,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     get new_image_path
     assert_response :ok
     assert_select 'h2', 'Add a new Image'
-    assert_select 'a[href="/images"]', count: 1
+    assert_select 'a[href="/images"]', count: 2
   end
 
   def test_index
@@ -29,7 +30,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
       expected_urls = [@url2, @url1, @url0]
       assert_equal img_urls, expected_urls
     end
-    assert_select 'a[href="/images/new"]', count: 1
+    assert_select 'a[href="/images/new"]', count: 2
   end
 
   def test_create_success
@@ -39,7 +40,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     end
     assert_redirected_to image_path(Image.last)
     get image_path(Image.last.id)
-    assert_select 'div.notice', value: 'Image saved'
+    assert_select 'div.alert', value: 'Image saved'
   end
 
   def test_create_failure
@@ -48,23 +49,15 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
       post images_path, params: { image: image_params }
     end
     assert_response :ok
-    assert_select 'div#error_explanation' do |elements|
-      elements.each do |element|
-        assert_select element, 'li', 2
-      end
-    end
-    assert_select 'div.field_with_errors' do |elements|
-      elements.each do
-        assert_select 'input[type=text]', value: @invalid_url
-      end
-    end
+    assert_select 'div.invalid-feedback', value: 'Url must start with http or https and Url must have a valid extension'
   end
 
   def test_show
     get image_path(@image0.id)
     assert_response :ok
     assert_select 'img', count: 1
-    assert_select 'a[href="/images"]', count: 1
-    assert_select 'a[href="/images/new"]', count: 1
+    assert_select 'a[href="/images"]', count: 2
+    assert_select 'a[href="/images/new"]', count: 2
   end
 end
+# rubocop:enable Metrics/LineLength
