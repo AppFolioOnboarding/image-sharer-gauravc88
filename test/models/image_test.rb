@@ -12,6 +12,13 @@ class ImageTest < ActiveSupport::TestCase
     assert image.errors.count.zero?
   end
 
+  def test_image__tags_saved
+    image = Image.new(url: 'http://test.png', tag_list: 'test, race, coffee')
+    assert image.valid?
+    assert_equal %w[test race coffee], image.tag_list
+    assert image.errors.count.zero?
+  end
+
   def test_invalid_starting
     image = Image.new(url: 'ftp://test.jpg')
     assert_not image.valid?
