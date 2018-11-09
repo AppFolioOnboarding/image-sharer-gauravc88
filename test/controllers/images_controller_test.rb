@@ -40,7 +40,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     end
     assert_redirected_to image_path(Image.last)
     get image_path(Image.last.id)
-    assert_select 'div.notice', value: 'Image saved'
+    assert_select 'div.alert', value: 'Image saved'
   end
 
   def test_create_failure
