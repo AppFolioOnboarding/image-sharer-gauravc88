@@ -1,5 +1,6 @@
+# rubocop:disable Layout/AlignHash
 # frozen_string_literal: true
-#
+
 # Uncomment this and change the path if necessary to include your own
 # components.
 # See https://github.com/plataformatec/simple_form#custom-components to know
@@ -180,3 +181,4 @@ SimpleForm.setup do |config|
   # config.input_field_valid_class = 'is-valid'
   # config.input_field_error_class = 'is-invalid'
 end
+# rubocop:enable Layout/AlignHash

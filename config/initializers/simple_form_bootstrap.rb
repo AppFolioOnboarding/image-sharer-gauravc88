@@ -1,3 +1,9 @@
+# rubocop:disable Metrics/LineLength
+# rubocop:disable Metrics/BlockLength
+# rubocop:disable Style/Lambda
+# rubocop:disable Layout/EmptyLines
+# rubocop:disable Lint/UnusedBlockArgument
+
 # frozen_string_literal: true
 
 # Please do not make direct changes to this file!
@@ -437,3 +443,9 @@ SimpleForm.setup do |config|
   #   time:          :custom_multi_select
   # }
 end
+
+# rubocop:enable Metrics/LineLength
+# rubocop:enable Metrics/BlockLength
+# rubocop:enable Style/Lambda
+# rubocop:enable Layout/EmptyLines
+# rubocop:enable Lint/UnusedBlockArgument
