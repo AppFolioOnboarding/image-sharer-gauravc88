@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/LineLength
 require 'test_helper'
 
 class ImagesControllerTest < ActionDispatch::IntegrationTest
@@ -59,3 +60,4 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     assert_select 'a[href="/images/new"]', count: 2
   end
 end
+# rubocop:enable Metrics/LineLength
