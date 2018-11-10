@@ -9,6 +9,7 @@
 <p>
   <h3>Image URL:</h3>
   <%= image_tag @image.url %>
+  <p id="image-tags"><%= @image.tag_list %></p>
 </p>
 <%= link_to 'All Images', images_path %>
 <%= link_to 'New Image', new_image_path %>

@@ -1,4 +1,5 @@
 <%= simple_form_for(image) do |form| %>
   <%= form.input :url, label: 'Image url' %>
+  <%= form.input :tag_list, label: 'Tags', placeholder: '(Optional)' %>
   <%= form.submit 'Save Image', class: "btn btn-primary" %>
 <% end %>
