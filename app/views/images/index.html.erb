@@ -2,8 +2,12 @@
 <div class="card-columns">
   <% @images.each do |image| %>
     <div class="card">
-        <%= link_to (image_tag image.url, class: 'card-img'), image %>
-        <p class="card-text"><%= image.tag_list %></p>
+      <%= link_to (image_tag image.url, class: 'card-img'), image %>
+      <div class="card-text">
+        <% image.tag_list.each do |tag| %>
+          <a href=<%= images_path + '?tag=' + tag %>>#<%= tag %></a>
+        <% end %>
+      </div>
     </div>
   <% end %>
 </div>

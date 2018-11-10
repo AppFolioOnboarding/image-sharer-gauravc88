@@ -11,7 +11,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     @tags1 = 'beer, wine'
     @url2 = 'https://test2.jpg'
     @tags2 = 'trash'
-    @tags = [@tags2, @tags1, @tags0]
+    @tags = %w[trash beer wine race coffee]
     @invalid_url = 'ftp://blah.xyz'
     @image0 = Image.create(url: @url0, tag_list: @tags0)
     @image1 = Image.create(url: @url1, tag_list: @tags1)
@@ -35,9 +35,9 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
       expected_urls = [@url2, @url1, @url0]
       assert_equal img_urls, expected_urls
     end
-    assert_select 'p.card-text' do |tags|
+    assert_select 'div.card-text a' do |tags|
       tags.each_with_index do |tag, index|
-        assert_equal @tags[index], tag.text
+        assert_equal '#' + @tags[index], tag.text
       end
     end
     assert_select 'a[href="/images/new"]', count: 2
