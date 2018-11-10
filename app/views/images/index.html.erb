@@ -1,14 +1,18 @@
 <h2>Stored Images</h2>
-<div class="card-columns">
-  <% @images.each do |image| %>
-    <div class="card">
-      <%= link_to (image_tag image.url, class: 'card-img'), image %>
-      <div class="card-text">
-        <% image.tag_list.each do |tag| %>
-          <a href=<%= images_path + '?tag=' + tag %>>#<%= tag %></a>
-        <% end %>
+<% if @images.count > 0 %>
+  <div class="card-columns">
+    <% @images.each do |image| %>
+      <div class="card">
+        <%= link_to (image_tag image.url, class: 'card-img'), image %>
+        <div class="card-text">
+          <% image.tag_list.each do |tag| %>
+            <a href=<%= images_path + '?tag=' + tag %>>#<%= tag %></a>
+          <% end %>
+        </div>
       </div>
-    </div>
-  <% end %>
-</div>
+    <% end %>
+  </div>
+<% else %>
+  <p>No Images found</p>
+<% end %>
 <%= link_to 'New Image', new_image_path %>

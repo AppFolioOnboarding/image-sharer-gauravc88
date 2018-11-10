@@ -25,7 +25,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     assert_select 'a[href="/images"]', count: 2
   end
 
-  def test_index
+  def test_index__without_tags
     get images_path
     assert_response :ok
     assert_select 'h2', 'Stored Images'
@@ -38,6 +38,47 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     assert_select 'div.card-text a' do |tags|
       tags.each_with_index do |tag, index|
         assert_equal '#' + @tags[index], tag.text
+      end
+    end
+    assert_select 'a[href="/images/new"]', count: 2
+  end
+
+  def test_index__with_unassociated_tags
+    get '/images?tag=scrap'
+    assert_response :ok
+    assert_select 'h2', 'Stored Images'
+    assert_select 'img', count: 0
+    assert_select 'a[href="/images/new"]', count: 2
+  end
+
+  def test_index__with_empty_tags
+    get '/images?tag='
+    assert_response :ok
+    assert_select 'h2', 'Stored Images'
+    assert_select 'img', count: 3
+    assert_select 'img' do |imgs|
+      img_urls = imgs.map { |img| img['src'] }
+      expected_urls = [@url2, @url1, @url0]
+      assert_equal img_urls, expected_urls
+    end
+    assert_select 'div.card-text a' do |tags|
+      tags.each_with_index do |tag, index|
+        assert_equal '#' + @tags[index], tag.text
+      end
+    end
+    assert_select 'a[href="/images/new"]', count: 2
+  end
+
+  def test_index__with_tags
+    get '/images?tag=beer'
+    assert_response :ok
+    assert_select 'h2', 'Stored Images'
+    assert_select 'img', count: 1
+    assert_select 'img', value: @url1
+    tags_to_expect = %w[beer wine]
+    assert_select 'div.card-text a' do |tags|
+      tags.each_with_index do |tag, index|
+        assert_equal '#' + tags_to_expect[index], tag.text
       end
     end
     assert_select 'a[href="/images/new"]', count: 2
