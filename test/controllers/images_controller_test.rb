@@ -38,7 +38,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     end
     assert_select 'div.card-text a' do |tags|
       tags.each_with_index do |tag, index|
-        assert_equal '#' + @tags[index], tag.text
+        assert_equal @tags[index], tag.text
       end
     end
     assert_select 'input#tag-search-field', count: 1
@@ -76,7 +76,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     end
     assert_select 'div.card-text a' do |tags|
       tags.each_with_index do |tag, index|
-        assert_equal '#' + @tags[index], tag.text
+        assert_equal @tags[index], tag.text
       end
     end
     assert_select 'input#tag-search-field', count: 1
@@ -97,7 +97,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     tags_to_expect = %w[beer wine]
     assert_select 'div.card-text a' do |tags|
       tags.each_with_index do |tag, index|
-        assert_equal '#' + tags_to_expect[index], tag.text
+        assert_equal tags_to_expect[index], tag.text
       end
     end
     assert_select 'input#tag-search-field', count: 1
