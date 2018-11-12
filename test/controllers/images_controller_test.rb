@@ -1,4 +1,5 @@
 # rubocop:disable Metrics/LineLength
+# rubocop:disable Metrics/ClassLength
 require 'test_helper'
 
 class ImagesControllerTest < ActionDispatch::IntegrationTest
@@ -40,6 +41,12 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
         assert_equal '#' + @tags[index], tag.text
       end
     end
+    assert_select 'input#tag-search-field', count: 1
+    assert_select 'input#tag-search-field' do |search_inputs|
+      search_inputs.each do |search_field|
+        assert_nil search_field['value']
+      end
+    end
     assert_select 'a[href="/images/new"]', count: 2
   end
 
@@ -48,6 +55,12 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     assert_response :ok
     assert_select 'h2', 'Stored Images'
     assert_select 'img', count: 0
+    assert_select 'input#tag-search-field', count: 1
+    assert_select 'input#tag-search-field' do |search_inputs|
+      search_inputs.each do |search_field|
+        assert_equal 'scrap', search_field['value']
+      end
+    end
     assert_select 'a[href="/images/new"]', count: 2
   end
 
@@ -66,6 +79,12 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
         assert_equal '#' + @tags[index], tag.text
       end
     end
+    assert_select 'input#tag-search-field', count: 1
+    assert_select 'input#tag-search-field' do |search_inputs|
+      search_inputs.each do |search_field|
+        assert_equal '', search_field['value']
+      end
+    end
     assert_select 'a[href="/images/new"]', count: 2
   end
 
@@ -79,6 +98,12 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     assert_select 'div.card-text a' do |tags|
       tags.each_with_index do |tag, index|
         assert_equal '#' + tags_to_expect[index], tag.text
+      end
+    end
+    assert_select 'input#tag-search-field', count: 1
+    assert_select 'input#tag-search-field' do |search_inputs|
+      search_inputs.each do |search_field|
+        assert_equal 'beer', search_field['value']
       end
     end
     assert_select 'a[href="/images/new"]', count: 2
@@ -114,3 +139,4 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
   end
 end
 # rubocop:enable Metrics/LineLength
+# rubocop:enable Metrics/ClassLength

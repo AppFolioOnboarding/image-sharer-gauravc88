@@ -1,4 +1,9 @@
 <h2>Stored Images</h2>
+<%= form_tag images_path, method: :get do %>
+  <%= text_field_tag :tag, params[:tag], id: 'tag-search-field' %>
+  <%= submit_tag 'Search', name: nil, id: 'tag-search-submit-button' %>
+<% end %>
+
 <% if @images.count > 0 %>
   <div class="card-columns">
     <% @images.each do |image| %>
