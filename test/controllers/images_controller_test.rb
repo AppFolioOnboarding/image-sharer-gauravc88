@@ -51,7 +51,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_index__with_unassociated_tags
-    get '/images?tag=scrap'
+    get images_path, params: { tag: 'scrap' }
     assert_response :ok
     assert_select 'h2', 'Stored Images'
     assert_select 'img', count: 0
@@ -65,7 +65,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_index__with_empty_tags
-    get '/images?tag='
+    get images_path, params: { tag: '' }
     assert_response :ok
     assert_select 'h2', 'Stored Images'
     assert_select 'img', count: 3
@@ -89,7 +89,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_index__with_tags
-    get '/images?tag=beer'
+    get images_path, params: { tag: 'beer' }
     assert_response :ok
     assert_select 'h2', 'Stored Images'
     assert_select 'img', count: 1
