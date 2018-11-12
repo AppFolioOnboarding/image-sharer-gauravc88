@@ -71,5 +71,21 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     assert_select 'a[href="/images"]', count: 2
     assert_select 'a[href="/images/new"]', count: 2
   end
+
+  def test_destroy__valid_object
+    assert_difference('Image.count', -1) do
+      delete image_path(@image0.id)
+    end
+    assert_redirected_to images_path
+    assert_equal 'Image deleted', flash[:notice]
+  end
+
+  def test_destroy__non_existent_image
+    assert_difference('Image.count', 0) do
+      delete image_path(-1)
+    end
+    assert_redirected_to images_path
+    assert_equal 'Image deleted', flash[:notice]
+  end
 end
 # rubocop:enable Metrics/LineLength
