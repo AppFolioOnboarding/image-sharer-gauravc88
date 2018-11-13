@@ -13,7 +13,7 @@ class ImagesController < ApplicationController
       flash[:notice] = 'Image saved'
       redirect_to @image
     else
-      render 'new'
+      render 'new', status: :unprocessable_entity
     end
   end
 

@@ -44,23 +44,31 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_create_success
+    create_params = image_create_params
     assert_difference('Image.count', 1) do
-      image_params = { url: @valid_url, tag_list: @valid_tags }
-      post images_path, params: { image: image_params }
+      post images_path, params: { image: create_params }
     end
     assert_redirected_to image_path(Image.last)
     get image_path(Image.last.id)
     assert_select 'div.alert', value: 'Image saved'
-    assert_select 'p#image-tags', value: @valid_tags
+    assert_select 'p#image-tags', create_params[:tag_list]
   end
 
-  def test_create_failure
+  def test_create_failure__no_tags
+    assert_no_difference('Image.count') do
+      post images_path, params: { image: image_create_params(tag_list: nil) }
+    end
+    assert_response :unprocessable_entity
+    assert_select 'div.invalid-feedback', "Tag list can't be blank"
+  end
+
+  def test_create_failure__invalid_url
     assert_no_difference('Image.count') do
       image_params = { url: @invalid_url }
       post images_path, params: { image: image_params }
     end
-    assert_response :ok
-    assert_select 'div.invalid-feedback', value: 'Url must start with http or https and Url must have a valid extension'
+    assert_response :unprocessable_entity
+    assert_select 'div.invalid-feedback', 'Url must start with http or https and Url must have a valid extension'
   end
 
   def test_show
@@ -70,6 +78,12 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     assert_select 'p#image-tags', value: @valid_tags
     assert_select 'a[href="/images"]', count: 2
     assert_select 'a[href="/images/new"]', count: 2
+  end
+
+  private
+
+  def image_create_params(url: 'http://test.jpg', tag_list: 'abc')
+    { url: url, tag_list: tag_list }
   end
 end
 # rubocop:enable Metrics/LineLength
