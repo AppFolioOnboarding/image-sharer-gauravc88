@@ -16,6 +16,14 @@
   <body>
   <div class="container">
     <%= render 'application/navHeader' %>
+    <% if flash[:notice] %>
+      <div class="alert alert-info alert-dismissable fade show">
+        <%= flash[:notice] %>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    <% end %>
     <%= yield %>
     <footer class="footer">
       <p class="text-muted text-center">Copyright XYZ</p>
