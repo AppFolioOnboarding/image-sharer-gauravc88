@@ -41,7 +41,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
         assert_equal @tags[index], tag.text
       end
     end
-    assert_select 'a[href="/images/new"]', count: 1
+    assert_select 'a[href="/images/new"]', count: 2
     assert_select 'input#tag-search-field', count: 1
     assert_select 'input#tag-search-field' do |search_inputs|
       search_inputs.each do |search_field|
