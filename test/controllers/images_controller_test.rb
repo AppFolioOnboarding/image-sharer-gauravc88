@@ -22,7 +22,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     get new_image_path
     assert_response :ok
     assert_select 'h2', 'Add a new Image'
-    assert_select 'a[href="/images"]', count: 2
+    assert_select 'a[href="/images"]', count: 1
   end
 
   def test_index
@@ -40,7 +40,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
         assert_equal @tags[index], tag.text
       end
     end
-    assert_select 'a[href="/images/new"]', count: 2
+    assert_select 'a[href="/images/new"]', count: 1
   end
 
   def test_create_success

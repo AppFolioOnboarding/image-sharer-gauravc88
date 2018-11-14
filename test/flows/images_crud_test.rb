@@ -11,22 +11,23 @@ class ImagesCrudTest < FlowTestCase
       url: 'invalid',
       tags: tags.join(', ')
     ).as_a(PageObjects::Images::NewPage)
-    assert_equal 'must be a valid URL', new_image_page.url.error_message
+    assert_equal 'Url must start with http or https and Url must have a valid extension', new_image_page.url.error_message
 
     image_url = 'https://media3.giphy.com/media/EldfH1VJdbrwY/200.gif'
     new_image_page.url.set(image_url)
+    new_image_page.tag_list.set(tags.join(','))
 
     image_show_page = new_image_page.create_image!
-    assert_equal 'You have successfully added an image.', image_show_page.flash_message(:success)
+    assert_equal "Image saved\n×", image_show_page.flash_message(:notice)
 
     assert_equal image_url, image_show_page.image_url
-    assert_equal tags, image_show_page.tags
+    assert_equal tags.join(', '), image_show_page.tags
 
     images_index_page = image_show_page.go_back_to_index!
-    assert images_index_page.showing_image?(url: image_url, tags: tags)
+    assert images_index_page.showing_image?(url: image_url, tags: tags.join(', '))
   end
 
-  test 'delete an image' do
+  def test_delete_an_image
     cute_puppy_url = 'http://ghk.h-cdn.co/assets/16/09/980x490/landscape-1457107485-gettyimages-512366437.jpg'
     ugly_cat_url = 'http://www.ugly-cat.com/ugly-cats/uglycat041.jpg'
     Image.create!([

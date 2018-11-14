@@ -3,7 +3,7 @@ module PageObjects
     class IndexPage < PageObjects::Document
       path :images
 
-      collection :images, locator: '#TODO', item_locator: '#TODO', contains: ImageCard do
+      collection :images, locator: '.card-columns', item_locator: '.card', contains: ImageCard do
         def view!
           # TODO
         end
@@ -15,7 +15,10 @@ module PageObjects
       end
 
       def showing_image?(url:, tags: nil)
-        # TODO
+        images.any? do |card|
+          card.url == url &&
+            (tags.blank? || card.tag_list == tags)
+        end
       end
 
       def clear_tag_filter!

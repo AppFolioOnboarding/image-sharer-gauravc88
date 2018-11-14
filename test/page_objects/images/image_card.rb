@@ -6,11 +6,11 @@ module PageObjects
       end
 
       def tags
-        # TODO
+        node.find('p')['text']
       end
 
       def click_tag!(tag_name)
-        # TODO
+
       end
     end
   end

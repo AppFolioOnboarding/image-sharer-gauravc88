@@ -4,15 +4,16 @@ module PageObjects
       path :image
 
       def image_url
-        # TODO
+        node.find('img.js-image-tag')['src']
       end
 
       def tags
-        # TODO
+        node.find('p#image-tags').text
       end
 
       def delete
-        # TODO
+        delete_button = node.find('a') { |a| a.href == "/images/#{image.id}" }
+        delete_button.click
         yield node.driver.browser.switch_to.alert
       end
 
@@ -22,7 +23,9 @@ module PageObjects
       end
 
       def go_back_to_index!
-        # TODO
+        all_images = node.find('a#all-images-tab')
+        all_images.click
+        window.change_to(IndexPage)
       end
     end
   end
