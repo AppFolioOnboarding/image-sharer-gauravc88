@@ -1,4 +1,5 @@
 # rubocop:disable Metrics/LineLength
+# rubocop:disable Metrics/ClassLength
 require 'test_helper'
 
 class ImagesControllerTest < ActionDispatch::IntegrationTest
@@ -11,7 +12,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     @tags1 = 'beer, wine'
     @url2 = 'https://test2.jpg'
     @tags2 = 'trash'
-    @tags = [@tags2, @tags1, @tags0]
+    @tags = %w[trash beer wine race coffee]
     @invalid_url = 'ftp://blah.xyz'
     @image0 = Image.create(url: @url0, tag_list: @tags0)
     @image1 = Image.create(url: @url1, tag_list: @tags1)
@@ -25,7 +26,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     assert_select 'a[href="/images"]', count: 1
   end
 
-  def test_index
+  def test_index__without_tags
     get images_path
     assert_response :ok
     assert_select 'h2', 'Stored Images'
@@ -35,12 +36,78 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
       expected_urls = [@url2, @url1, @url0]
       assert_equal img_urls, expected_urls
     end
-    assert_select 'p.card-text' do |tags|
+    assert_select 'div.card-text a' do |tags|
       tags.each_with_index do |tag, index|
         assert_equal @tags[index], tag.text
       end
     end
     assert_select 'a[href="/images/new"]', count: 1
+    assert_select 'input#tag-search-field', count: 1
+    assert_select 'input#tag-search-field' do |search_inputs|
+      search_inputs.each do |search_field|
+        assert_nil search_field['value']
+      end
+    end
+    assert_select 'a[href="/images/new"]', count: 2
+  end
+
+  def test_index__with_unassociated_tags
+    get images_path, params: { tag: 'scrap' }
+    assert_response :ok
+    assert_select 'h2', 'Stored Images'
+    assert_select 'img', count: 0
+    assert_select 'input#tag-search-field', count: 1
+    assert_select 'input#tag-search-field' do |search_inputs|
+      search_inputs.each do |search_field|
+        assert_equal 'scrap', search_field['value']
+      end
+    end
+    assert_select 'a[href="/images/new"]', count: 2
+  end
+
+  def test_index__with_empty_tags
+    get images_path, params: { tag: '' }
+    assert_response :ok
+    assert_select 'h2', 'Stored Images'
+    assert_select 'img', count: 3
+    assert_select 'img' do |imgs|
+      img_urls = imgs.map { |img| img['src'] }
+      expected_urls = [@url2, @url1, @url0]
+      assert_equal img_urls, expected_urls
+    end
+    assert_select 'div.card-text a' do |tags|
+      tags.each_with_index do |tag, index|
+        assert_equal @tags[index], tag.text
+      end
+    end
+    assert_select 'input#tag-search-field', count: 1
+    assert_select 'input#tag-search-field' do |search_inputs|
+      search_inputs.each do |search_field|
+        assert_equal '', search_field['value']
+      end
+    end
+    assert_select 'a[href="/images/new"]', count: 2
+  end
+
+  def test_index__with_tags
+    get images_path, params: { tag: 'beer' }
+    assert_response :ok
+    assert_select 'h2', 'Stored Images'
+    assert_select 'img', count: 1
+    assert_select 'img', value: @url1
+    tags_to_expect = %w[beer wine]
+    assert_select 'div.card-text a' do |tags|
+      tags.each_with_index do |tag, index|
+        assert_equal tags_to_expect[index], tag.text
+      end
+    end
+    assert_select 'input#tag-search-field', count: 1
+    assert_select 'input#tag-search-field' do |search_inputs|
+      search_inputs.each do |search_field|
+        assert_equal 'beer', search_field['value']
+      end
+    end
+    assert_select 'a[href="/images/new"]', count: 2
   end
 
   def test_create_success
@@ -89,3 +156,4 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
   end
 end
 # rubocop:enable Metrics/LineLength
+# rubocop:enable Metrics/ClassLength
