@@ -20,7 +20,7 @@ images = [{ url: 'https://images.pexels.com/photos/850602/pexels-photo-850602.jp
           { url: 'https://images.pexels.com/photos/163016/crash-test-collision-60-km-h-distraction-163016.jpeg',
             tags: 'crash, cars, car' },
           { url: 'https://images.pexels.com/photos/263194/pexels-photo-263194.jpeg',
-            tags: '' },
+            tags: 'test, graph' },
           { url: 'https://images.pexels.com/photos/46173/diabetes-blood-sugar-diabetic-medicine-46173.jpeg',
             tags: 'test, needle' },
           { url: 'https://images.pexels.com/photos/207585/pexels-photo-207585.jpeg',
