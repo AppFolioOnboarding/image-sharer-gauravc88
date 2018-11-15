@@ -1,3 +1,5 @@
+require 'page_objects/images/image_card'
+
 module PageObjects
   module Images
     class IndexPage < PageObjects::Document
