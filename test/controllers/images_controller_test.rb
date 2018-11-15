@@ -152,7 +152,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
       delete image_path(-1)
     end
     assert_redirected_to images_path
-    assert_equal 'Image deleted', flash[:notice]
+    assert_equal 'Image delete failed', flash[:error]
   end
 end
 # rubocop:enable Metrics/LineLength
