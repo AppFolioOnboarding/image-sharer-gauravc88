@@ -4,7 +4,11 @@ class ImagesController < ApplicationController
   end
 
   def index
-    @images = Image.order('created_at DESC')
+    @images = if params[:tag].blank?
+                Image.order('created_at DESC')
+              else
+                Image.order('created_at DESC').tagged_with(params[:tag])
+              end
   end
 
   def create
