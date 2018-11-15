@@ -19,7 +19,7 @@ class ImagesCrudTest < FlowTestCase
     new_image_page.tag_list.set(tags.join(','))
 
     image_show_page = new_image_page.create_image!
-    assert_equal "Image saved\n×", image_show_page.flash_message(:notice)
+    assert_equal 'Image saved', image_show_page.flash_message(:notice)
 
     assert_equal image_url, image_show_page.image_url
     assert_equal tags.join(', '), image_show_page.tags
@@ -52,7 +52,7 @@ class ImagesCrudTest < FlowTestCase
     end
 
     images_index_page = image_show_page.delete_and_confirm!
-    assert_equal "Image deleted\n×", images_index_page.flash_message(:notice)
+    assert_equal 'Image deleted', images_index_page.flash_message(:notice)
 
     assert_equal 1, images_index_page.images.count
     assert_not images_index_page.showing_image?(url: ugly_cat_url)
