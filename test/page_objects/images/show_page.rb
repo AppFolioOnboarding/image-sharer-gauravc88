@@ -12,13 +12,13 @@ module PageObjects
       end
 
       def delete
-        delete_button = node.find('a') { |a| a.href == "/images/#{image.id}" }
+        delete_button = node.find('a.js-delete-image-link')
         delete_button.click
         yield node.driver.browser.switch_to.alert
       end
 
       def delete_and_confirm!
-        # TODO
+        delete(&:accept)
         window.change_to(IndexPage)
       end
 

@@ -11,10 +11,12 @@ class ImagesCrudTest < FlowTestCase
       url: 'invalid',
       tags: tags.join(', ')
     ).as_a(PageObjects::Images::NewPage)
-    assert_equal 'Url must start with http or https and Url must have a valid extension', new_image_page.url.error_message
+    assert_equal 'Url must start with http or https and Url must have a valid extension',
+                 new_image_page.url.error_message
 
     image_url = 'https://media3.giphy.com/media/EldfH1VJdbrwY/200.gif'
     new_image_page.url.set(image_url)
+    puts tags.join(',').inspect
     new_image_page.tag_list.set(tags.join(','))
 
     image_show_page = new_image_page.create_image!
@@ -24,7 +26,7 @@ class ImagesCrudTest < FlowTestCase
     assert_equal tags.join(', '), image_show_page.tags
 
     images_index_page = image_show_page.go_back_to_index!
-    assert images_index_page.showing_image?(url: image_url, tags: tags.join(', '))
+    assert images_index_page.showing_image?(url: image_url, tags: tags)
   end
 
   def test_delete_an_image
@@ -46,12 +48,12 @@ class ImagesCrudTest < FlowTestCase
     image_show_page = image_to_delete.view!
 
     image_show_page.delete do |confirm_dialog|
-      assert_equal 'Are you sure?', confirm_dialog.text
+      assert_equal 'Are you sure you want to delete the image?', confirm_dialog.text
       confirm_dialog.dismiss
     end
 
     images_index_page = image_show_page.delete_and_confirm!
-    assert_equal 'You have successfully deleted the image.', images_index_page.flash_message(:success)
+    assert_equal "Image deleted\n×", images_index_page.flash_message(:notice)
 
     assert_equal 1, images_index_page.images.count
     assert_not images_index_page.showing_image?(url: ugly_cat_url)
