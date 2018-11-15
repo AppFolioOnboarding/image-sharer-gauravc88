@@ -28,7 +28,7 @@ class ImagesCrudTest < FlowTestCase
     assert images_index_page.showing_image?(url: image_url, tags: tags)
   end
 
-  def test_delete_an_image
+  test 'delete an image' do
     cute_puppy_url = 'http://ghk.h-cdn.co/assets/16/09/980x490/landscape-1457107485-gettyimages-512366437.jpg'
     ugly_cat_url = 'http://www.ugly-cat.com/ugly-cats/uglycat041.jpg'
     Image.create!([
