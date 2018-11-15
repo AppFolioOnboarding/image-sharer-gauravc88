@@ -23,7 +23,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     get new_image_path
     assert_response :ok
     assert_select 'h2', 'Add a new Image'
-    assert_select 'a[href="/images"]', count: 2
+    assert_select 'a[href="/images"]', count: 1
   end
 
   def test_index__without_tags
@@ -41,6 +41,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
         assert_equal @tags[index], tag.text
       end
     end
+    assert_select 'a[href="/images/new"]', count: 2
     assert_select 'input#tag-search-field', count: 1
     assert_select 'input#tag-search-field' do |search_inputs|
       search_inputs.each do |search_field|
@@ -144,6 +145,22 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     assert_select 'p#image-tags', value: @valid_tags
     assert_select 'a[href="/images"]', count: 2
     assert_select 'a[href="/images/new"]', count: 2
+  end
+
+  def test_destroy__valid_object
+    assert_difference('Image.count', -1) do
+      delete image_path(@image0.id)
+    end
+    assert_redirected_to images_path
+    assert_equal 'Image deleted', flash[:notice]
+  end
+
+  def test_destroy__non_existent_image
+    assert_difference('Image.count', 0) do
+      delete image_path(-1)
+    end
+    assert_redirected_to images_path
+    assert_equal 'Image delete failed', flash[:error]
   end
 
   private
