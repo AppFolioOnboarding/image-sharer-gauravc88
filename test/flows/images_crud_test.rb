@@ -16,7 +16,6 @@ class ImagesCrudTest < FlowTestCase
 
     image_url = 'https://media3.giphy.com/media/EldfH1VJdbrwY/200.gif'
     new_image_page.url.set(image_url)
-    puts tags.join(',').inspect
     new_image_page.tag_list.set(tags.join(','))
 
     image_show_page = new_image_page.create_image!
