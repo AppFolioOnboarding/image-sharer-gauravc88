@@ -6,7 +6,6 @@ class AddDefaultTagToImagesWithoutTags < ActiveRecord::Migration[5.2]
     images_without_tags.each do |image|
       image.tag_list.add('[default-image-sharer-tag]')
       image.save
-      puts image.inspect
     end
   end
 
