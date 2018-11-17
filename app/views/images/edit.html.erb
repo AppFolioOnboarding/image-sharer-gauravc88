@@ -1,0 +1,4 @@
+<h1> Edit Image </h1>
+<%= image_tag @image.url, class: 'js-image-tag'%>
+<%= render partial: 'images/form', locals: { image: @image, action_type: 'edit' }%>
+<%= link_to 'All Images', images_path %>

@@ -130,6 +130,36 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     assert_select 'div.invalid-feedback', value: 'Url must start with http or https and Url must have a valid extension'
   end
 
+  def test_edit_image
+    get edit_image_path(@image0.id)
+    assert_response :ok
+    assert_select 'img', count: 1
+    assert_select 'input[type=text]' do |tag_inputs|
+      tag_inputs.each do |tag_input|
+        assert_equal @image0.tag_list.to_s, tag_input['value']
+      end
+    end
+    assert_select 'input[type=url]' do |url_inputs|
+      url_inputs.each do |url_input|
+        assert_equal @image0.url, url_input['value']
+        assert_equal 'readonly', url_input['readonly']
+      end
+    end
+  end
+
+  def test_update__success
+    image_params = { tag_list: @valid_tags }
+    patch image_path(@image0), params: { image: image_params }
+    assert_redirected_to image_path(@image0)
+
+    get image_path(@image0.id)
+    assert_select 'p#image-tags' do |image_tags|
+      image_tags.each do |image_tag|
+        assert_equal @valid_tags.to_s, image_tag.text
+      end
+    end
+  end
+
   def test_show
     get image_path(@image0.id)
     assert_response :ok
