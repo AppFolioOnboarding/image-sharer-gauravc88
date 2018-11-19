@@ -1,7 +1,7 @@
 <p>
   <h3>Image URL:</h3>
   <%= image_tag @image.url, class: 'js-image-tag'%>
-  <p id="image-tags"><%= @image.tag_list %></p>
+  <p id="image-tags"><%= @image.tag_list.select{|item| item != 'default-image-sharer-tag'}.join(', ') %></p>
 </p>
 
 <%= link_to 'Delete', image_path(@image.id), class: 'js-delete-image-link', method: :delete,  data: {confirm: 'Are you sure you want to delete the image?'} %>

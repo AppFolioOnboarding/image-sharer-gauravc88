@@ -6,8 +6,15 @@ class ImageTest < ActiveSupport::TestCase
     assert_not image.valid?
   end
 
-  def test_valid_url
+  def test_valid_url__no_tags
     image = Image.new(url: 'http://test.png')
+    assert_not image.valid?
+    assert_not image.errors.count.zero?
+    assert_equal "can't be blank", image.errors.messages[:tag_list][0]
+  end
+
+  def test_valid_url__with_tags
+    image = Image.new(url: 'http://test.png', tag_list: 'foo, bar')
     assert image.valid?
     assert image.errors.count.zero?
   end
