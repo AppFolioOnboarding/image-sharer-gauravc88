@@ -82,4 +82,19 @@ class ImagesCrudTest < FlowTestCase
     images_index_page = images_index_page.clear_tag_filter!
     assert_equal 3, images_index_page.images.count
   end
+
+  test 'update an image associated with a tag' do
+    cute_puppy_url = 'http://ghk.h-cdn.co/assets/16/09/980x490/landscape-1457107485-gettyimages-512366437.jpg'
+    Image.create!([{ url: cute_puppy_url, tag_list: 'puppy, cute' }])
+
+    images_index_page = PageObjects::Images::IndexPage.visit
+    assert_equal 1, images_index_page.images.count
+    assert images_index_page.showing_image?(url: cute_puppy_url)
+
+    image_to_update = images_index_page.images.find do |image|
+      image.url == cute_puppy_url
+    end
+    image_show_page = image_to_update.view!
+
+  end
 end
