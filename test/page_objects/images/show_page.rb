@@ -22,7 +22,7 @@ module PageObjects
         window.change_to(IndexPage)
       end
 
-      def edit
+      def edit!
         edit_button = node.find('a.js-edit-image-link')
         edit_button.click
         window.change_to(EditPage)

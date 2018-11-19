@@ -34,7 +34,7 @@ class ImagesController < ApplicationController
     if @image.update(image_params)
       redirect_to @image
     else
-      render 'edit'
+      render 'edit', status: :unprocessable_entity
     end
   end
 

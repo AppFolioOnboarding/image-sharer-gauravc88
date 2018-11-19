@@ -101,6 +101,10 @@ class ImagesCrudTest < FlowTestCase
       image.url == cute_puppy_url
     end
     image_show_page = image_to_update.view!
+    image_edit_page = image_show_page.edit!
 
+    updated_tag_list = 'golden, fish'
+    image_show_page = image_edit_page.update_image!(tags: updated_tag_list).as_a(PageObjects::Images::ShowPage)
+    assert_equal updated_tag_list, image_show_page.tags
   end
 end

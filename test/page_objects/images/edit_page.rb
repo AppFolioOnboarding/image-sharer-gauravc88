@@ -1,20 +1,18 @@
 module PageObjects
   module Images
     class EditPage < PageObjects::Document
-      path :image
+      path :edit_image
+      path 'images#update' # from POST to images for failed create
 
-      def image_url
-        node.find('img.js-image-tag')['src']
-      end
-
-      def tags
-        node.find('p#image-tags').text
+      form_for :image do
+        element :url
+        element :tag_list
       end
 
       def update_image!(tags: nil)
-        tag_list.set(tags) if tags.present?
+        tag_list.set(tags)
         node.click_button('Save Image')
-        window.change_to(ShowPage, self.class)
+        window.change_to(EditPage, ShowPage)
       end
     end
   end
