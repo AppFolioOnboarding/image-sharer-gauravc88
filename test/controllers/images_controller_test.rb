@@ -163,10 +163,39 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     assert_equal 'Image delete failed', flash[:error]
   end
 
+  def test_share_page
+    @sharing = ShareImage.new(share_image_params)
+
+    get share_image_path(@image0.id)
+    assert_select 'h1', 'Share Image'
+    assert_select 'img.js-image-tag', value: @image0.url
+    assert_select 'input.js-share-image-id', value: @image0.id
+    assert_select 'input.js-share-image-email-recipients', value: 'abc@xyz.com'
+    assert_select 'textarea.js-email-message-text-area', value: 'Test'
+  end
+
+  def test_share__fails_nil_email_recipients
+    post share_image_path(@image0.id), params: { share_image: share_image_params(email_recipients: nil) }
+    assert_response :unprocessable_entity
+    assert_select 'div.invalid-feedback', "Email recipients can't be blank"
+    assert_equal 'Image share failed', flash[:error]
+  end
+
+  def test_share__valid_email_recipients
+    post share_image_path(@image0.id), params: { share_image: share_image_params }
+    assert_response :found
+    assert_redirected_to images_path
+    assert_equal 'Image shared', flash[:success]
+  end
+
   private
 
   def image_create_params(url: 'http://test.jpg', tag_list: 'abc')
     { url: url, tag_list: tag_list }
+  end
+
+  def share_image_params(image_id: @image0.id, email_message: 'Test', email_recipients: 'abc@xyz.com')
+    { image_id: image_id, email_message: email_message, email_recipients: email_recipients }
   end
 end
 # rubocop:enable Metrics/LineLength

@@ -1,0 +1,11 @@
+<h1>Share Image</h1>
+<%= image_tag @image.url, class: 'js-image-tag' %>
+<%= simple_form_for(@sharing, url: share_image_path) do |f| %>
+  <%= f.hidden_field :image_id, class: 'js-share-image-id' %>
+  <%= f.input :email_recipients, input_html: {class: 'js-share-image-email-recipients'} %>
+  <%= f.label 'Message' %>
+  <br>
+  <%= f.text_area :email_message, placeholder: '(Optional)', class: 'js-email-message-text-area' %>
+  <br>
+  <%= f.submit 'Send Image', class: 'btn btn-primary' %>
+<% end %>

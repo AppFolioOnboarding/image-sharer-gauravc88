@@ -1,4 +1,6 @@
 class Image < ApplicationRecord
+  attr_accessor :email_message, :email_recipient
+
   acts_as_taggable_on :tags
   validates :tag_list, presence: true
   validates :url, presence: true
