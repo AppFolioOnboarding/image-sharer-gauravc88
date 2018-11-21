@@ -6,5 +6,6 @@
 
 <%= link_to 'Delete', image_path(@image.id), class: 'js-delete-image-link', method: :delete,  data: {confirm: 'Are you sure you want to delete the image?'} %>
 <%= link_to 'All Images', images_path %>
+<%= link_to 'Edit Image', edit_image_path, class: 'js-edit-image-link' %>
 <%= link_to 'New Image', new_image_path %>
 

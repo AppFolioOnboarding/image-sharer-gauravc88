@@ -22,6 +22,12 @@ module PageObjects
         window.change_to(IndexPage)
       end
 
+      def edit!
+        edit_button = node.find('a.js-edit-image-link')
+        edit_button.click
+        window.change_to(EditPage)
+      end
+
       def go_back_to_index!
         all_images = node.find('a#all-images-tab')
         all_images.click
