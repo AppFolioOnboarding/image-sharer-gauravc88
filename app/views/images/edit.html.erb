@@ -1,0 +1,8 @@
+<h1> Edit Image </h1>
+<%= image_tag @image.url, class: 'js-image-tag'%>
+<%= simple_form_for(@image, method: :patch) do |form| %>
+  <%= form.input :url, label: 'Image url', readonly: true %>
+  <%= form.input :tag_list, label: 'Tags', input_html: { value: "#{@image.tag_list}" } %>
+  <%= form.submit 'Save Image', class: "btn btn-primary" %>
+<% end %>
+<%= link_to 'All Images', images_path %>
