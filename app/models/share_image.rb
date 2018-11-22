@@ -2,12 +2,6 @@ class ShareImage
   include ActiveModel::Model
   attr_accessor :image_id, :email_message, :email_recipients
 
-  # def initialize(image_id:, email_message: nil, email_recipients: nil)
-  #   @image_id = image_id
-  #   @email_message = email_message if email_message.present?
-  #   @email_recipients = email_recipients if email_recipients.present?
-  # end
-
   validates :image_id, presence: true
   validates :email_recipients, presence: true
   validate :verify_email_addresses

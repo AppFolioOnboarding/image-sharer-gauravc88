@@ -59,6 +59,7 @@ class ImagesController < ApplicationController
     @sharing = ShareImage.new(share_params)
     @image = Image.find(share_params[:image_id])
     if @sharing.valid? && @image.valid?
+      ImageMailer.share_image_email(@image, @sharing.email_recipients, @sharing.email_message, images_url).deliver
       flash[:success] = 'Image shared'
       redirect_to images_path
     else
