@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+</head>
+<body>
+  <h1>Checkout this cool image!</h1>
+  <%= image_tag @image.url %>
+  <p class='custom-text'> <%= @email_message %> </p>
+  <p>
+    To see more amazing pictures, just follow this link:
+    <a href=<%= @app_url %>><%= @app_url %></a>
+  </p>
+</body>
+</html>
